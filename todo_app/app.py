@@ -17,6 +17,5 @@ def index():
 @app.route('/new-todo', methods=["POST"])
 def newTodo():
     title = request.form.get(titleFieldName)
-    if title != '':
-        add_item(title)
+    add_item(title)
     return redirect(url_for('index'))
