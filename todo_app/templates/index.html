@@ -27,6 +27,17 @@
         {% for todo in not_started_todos %}
           <li>
             {{ todo.name }}
+              <a href="{{ url_for('start_todo', id=todo.id) }}">
+                <button>Start</button>
+              </a>
+          </li>
+        {% endfor %}
+      </ul>
+      <h3>Started</h3>
+      <ul class="list-group mb-4">
+        {% for todo in doing_todos %}
+          <li>
+            {{ todo.name }}
               <a href="{{ url_for('complete_todo', id=todo.id) }}">
                 <button>Complete</button>
               </a>

@@ -1,2 +1,3 @@
 NOT_STARTED_STATUS = 'Not Started'
+DOING_STATUS = 'Doing'
 DONE_STATUS = 'Done'
