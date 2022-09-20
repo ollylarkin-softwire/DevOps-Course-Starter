@@ -38,6 +38,15 @@ You will also need to [create a Trello account](https://trello.com/signup) (or l
 
 This app will manage cards on a board of your choosing to keep track of 'to-do's. Either create a new board, or choose an existing one, and add its ID to the `BOARD_ID` variable in the `.env` file. This ID can be found in the URL in the browser when the board is open. Then add the names of the columns you wish to use for the "NOT_STARTED_LIST_NAME", "DOING_LIST_NAME" and "DONE_LIST_NAME" options to the `.env` file.  
 
+## Tests
+
+All tests are located in the `/tests` folder in the route directory.
+
+Tests can be run by running:
+```bash
+$ poetry run pytest
+```
+
 ## Running the App
 
 Once the all dependencies have been installed, start the Flask app in development mode within the Poetry environment by running:
