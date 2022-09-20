@@ -11,8 +11,8 @@
     <div class="col-md-12">
       <h2>Add New To-Do</h2>
       <form action="{{ url_for('new_todo') }}" method="post">
-        <label for="{{ title_field_name }}">Title:</label>
-        <input type="text" id="{{ title_field_name }}" name="{{ title_field_name }}" required>
+        <label for="{{ view_model.title_field_name }}">Title:</label>
+        <input type="text" id="{{ view_model.title_field_name }}" name="{{ view_model.title_field_name }}" required>
         <input type="submit" value="Add">
       </form>
     </div>
@@ -24,7 +24,7 @@
       <h2>Items</h2>
       <h3>Not Started</h3>
       <ul class="list-group mb-4">
-        {% for todo in not_started_todos %}
+        {% for todo in view_model.not_started_todos %}
           <li>
             {{ todo.name }}
               <a href="{{ url_for('start_todo', id=todo.id) }}">
@@ -35,7 +35,7 @@
       </ul>
       <h3>Started</h3>
       <ul class="list-group mb-4">
-        {% for todo in doing_todos %}
+        {% for todo in view_model.doing_todos %}
           <li>
             {{ todo.name }}
               <a href="{{ url_for('complete_todo', id=todo.id) }}">
@@ -46,7 +46,7 @@
       </ul>
       <h3>Done</h3>
       <ul class="list-group mb-4">
-        {% for todo in done_todos %}
+        {% for todo in view_model.done_todos %}
           <li>
             {{ todo.name }}
               <a href="{{ url_for('reset_todo', id=todo.id) }}">
