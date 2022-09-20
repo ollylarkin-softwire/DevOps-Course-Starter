@@ -10,9 +10,9 @@
   <div class="row">
     <div class="col-md-12">
       <h2>Add New To-Do</h2>
-      <form action="{{ url_for('newTodo') }}" method="post">
-        <label for="{{ titleFieldName }}">Title:</label>
-        <input type="text" id="{{ titleFieldName }}" name="{{ titleFieldName }}" required>
+      <form action="{{ url_for('new_todo') }}" method="post">
+        <label for="{{ title_field_name }}">Title:</label>
+        <input type="text" id="{{ title_field_name }}" name="{{ title_field_name }}" required>
         <input type="submit" value="Add">
       </form>
     </div>
@@ -22,9 +22,26 @@
   <div class="row">
     <div class="col-md-12">
       <h2>Items</h2>
+      <h3>Not Started</h3>
       <ul class="list-group mb-4">
-        {% for todo in todos %}
-          <li>{{ todo.title }} - {{ todo.status }}</li>
+        {% for todo in not_started_todos %}
+          <li>
+            {{ todo.name }}
+              <a href="{{ url_for('complete_todo', id=todo.id) }}">
+                <button>Complete</button>
+              </a>
+          </li>
+        {% endfor %}
+      </ul>
+      <h3>Done</h3>
+      <ul class="list-group mb-4">
+        {% for todo in done_todos %}
+          <li>
+            {{ todo.name }}
+              <a href="{{ url_for('reset_todo', id=todo.id) }}">
+                <button>Reset</button>
+              </a>
+          </li>
         {% endfor %}
       </ul>
     </div>
