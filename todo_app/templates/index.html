@@ -26,10 +26,8 @@
       <ul class="list-group mb-4">
         {% for todo in view_model.not_started_items %}
           <li>
-            {{ todo.name }}
-              <a href="{{ url_for('start_todo', id=todo.id) }}">
-                <button>Start</button>
-              </a>
+            {{ todo.name }} - 
+              <a href="{{ url_for('start_todo', id=todo.id) }}">Start</a>
           </li>
         {% endfor %}
       </ul>
@@ -37,10 +35,8 @@
       <ul class="list-group mb-4">
         {% for todo in view_model.doing_items %}
           <li>
-            {{ todo.name }}
-              <a href="{{ url_for('complete_todo', id=todo.id) }}">
-                <button>Complete</button>
-              </a>
+            {{ todo.name }} - 
+              <a href="{{ url_for('complete_todo', id=todo.id) }}">Complete</a>
           </li>
         {% endfor %}
       </ul>
@@ -52,10 +48,8 @@
       <ul class="list-group mb-4">
         {% for todo in (view_model.done_items if view_model.should_show_all_done_items else view_model.recent_done_items) %}
           <li>
-            {{ todo.name }} ({{ todo.last_edit.strftime('%d-%m-%Y') }})
-              <a href="{{ url_for('reset_todo', id=todo.id) }}">
-                <button>Reset</button>
-              </a>
+            {{ todo.name }} (completed on {{ todo.last_edit.strftime('%d-%m-%Y') }}) - 
+              <a href="{{ url_for('reset_todo', id=todo.id) }}">Reset</a>
           </li>
         {% endfor %}
       </ul>
