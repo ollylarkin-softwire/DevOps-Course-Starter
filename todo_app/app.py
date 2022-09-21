@@ -12,9 +12,11 @@ TITLE_FIELD_NAME = 'title'
 @app.route('/')
 def index():
     todos = get_items()
+    should_show_all_done_items = request.args.get('should_show_all_done_items', default=False, type=bool)
     return render_template('index.html', view_model=ViewModel(
         title_field_name=TITLE_FIELD_NAME,
         items=todos,
+        should_show_all_done_items=should_show_all_done_items,
     ))
 
 @app.route('/new-todo', methods=['POST'])

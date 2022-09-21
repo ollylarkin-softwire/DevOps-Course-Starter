@@ -1,10 +1,12 @@
 from todo_app.data.status import NOT_STARTED_STATUS, DOING_STATUS, DONE_STATUS
+from datetime import datetime
 
 class Item:
-    def __init__(self, id, name, status = NOT_STARTED_STATUS):
+    def __init__(self, id, name, status = NOT_STARTED_STATUS, last_edit = datetime.now()):
         self.id = id
         self.name = name
         self.status = status
+        self.last_edit = last_edit
 
     @classmethod
     def from_trello(cls, trello, card):
@@ -16,5 +18,7 @@ class Item:
             status = DONE_STATUS
         else:
             raise Exception('Invalid list name')
+
+        last_edit = datetime.strptime(card['dateLastActivity'], '%Y-%m-%dT%H:%M:%S.%fZ')
         
-        return cls(card['id'], card['name'], status)
+        return cls(card['id'], card['name'], status, last_edit)

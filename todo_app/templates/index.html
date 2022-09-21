@@ -24,7 +24,7 @@
       <h2>Items</h2>
       <h3>Not Started</h3>
       <ul class="list-group mb-4">
-        {% for todo in view_model.not_started_todos %}
+        {% for todo in view_model.not_started_items %}
           <li>
             {{ todo.name }}
               <a href="{{ url_for('start_todo', id=todo.id) }}">
@@ -35,7 +35,7 @@
       </ul>
       <h3>Started</h3>
       <ul class="list-group mb-4">
-        {% for todo in view_model.doing_todos %}
+        {% for todo in view_model.doing_items %}
           <li>
             {{ todo.name }}
               <a href="{{ url_for('complete_todo', id=todo.id) }}">
@@ -44,17 +44,32 @@
           </li>
         {% endfor %}
       </ul>
-      <h3>Done</h3>
+      {% if view_model.should_show_all_done_items %}
+        <h3>Done (All)</h3>
+      {% else %}
+        <h3>Done (Completed Today)</h3>
+      {% endif %}
       <ul class="list-group mb-4">
-        {% for todo in view_model.done_todos %}
+        {% for todo in (view_model.done_items if view_model.should_show_all_done_items else view_model.recent_done_items) %}
           <li>
-            {{ todo.name }}
+            {{ todo.name }} ({{ todo.last_edit.strftime('%d-%m-%Y') }})
               <a href="{{ url_for('reset_todo', id=todo.id) }}">
                 <button>Reset</button>
               </a>
           </li>
         {% endfor %}
       </ul>
+      {% if view_model.there_are_older_items %}
+        {% if view_model.should_show_all_done_items %}
+          <a href="{{ url_for('index') }}">
+            <button>Show Less</button>
+          </a>
+        {% else %}
+          <a href="{{ url_for('index', should_show_all_done_items=True) }}">
+            <button>Show More</button>
+          </a>
+        {% endif %}
+      {% endif %}
     </div>
   </div>
 {% endblock %}
