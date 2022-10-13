@@ -11,8 +11,8 @@
     <div class="col-md-12">
       <h2>Add New To-Do</h2>
       <form action="{{ url_for('new_todo') }}" method="post">
-        <label for="{{ title_field_name }}">Title:</label>
-        <input type="text" id="{{ title_field_name }}" name="{{ title_field_name }}" required>
+        <label for="{{ view_model.title_field_name }}">Title:</label>
+        <input type="text" id="{{ view_model.title_field_name }}" name="{{ view_model.title_field_name }}" required>
         <input type="submit" value="Add">
       </form>
     </div>
@@ -24,26 +24,46 @@
       <h2>Items</h2>
       <h3>Not Started</h3>
       <ul class="list-group mb-4">
-        {% for todo in not_started_todos %}
+        {% for todo in view_model.not_started_items %}
           <li>
-            {{ todo.name }}
-              <a href="{{ url_for('complete_todo', id=todo.id) }}">
-                <button>Complete</button>
-              </a>
+            {{ todo.name }} - 
+              <a href="{{ url_for('start_todo', id=todo.id) }}">Start</a>
           </li>
         {% endfor %}
       </ul>
-      <h3>Done</h3>
+      <h3>Started</h3>
       <ul class="list-group mb-4">
-        {% for todo in done_todos %}
+        {% for todo in view_model.doing_items %}
           <li>
-            {{ todo.name }}
-              <a href="{{ url_for('reset_todo', id=todo.id) }}">
-                <button>Reset</button>
-              </a>
+            {{ todo.name }} - 
+              <a href="{{ url_for('complete_todo', id=todo.id) }}">Complete</a>
           </li>
         {% endfor %}
       </ul>
+      {% if view_model.should_show_all_done_items %}
+        <h3>Done (All)</h3>
+      {% else %}
+        <h3>Done (Completed Today)</h3>
+      {% endif %}
+      <ul class="list-group mb-4">
+        {% for todo in (view_model.done_items if view_model.should_show_all_done_items else view_model.recent_done_items) %}
+          <li>
+            {{ todo.name }} (completed on {{ todo.last_edit.strftime('%d-%m-%Y') }}) - 
+              <a href="{{ url_for('reset_todo', id=todo.id) }}">Reset</a>
+          </li>
+        {% endfor %}
+      </ul>
+      {% if view_model.there_are_older_items %}
+        {% if view_model.should_show_all_done_items %}
+          <a href="{{ url_for('index') }}">
+            <button>Show Less</button>
+          </a>
+        {% else %}
+          <a href="{{ url_for('index', should_show_all_done_items=True) }}">
+            <button>Show More</button>
+          </a>
+        {% endif %}
+      {% endif %}
     </div>
   </div>
 {% endblock %}
