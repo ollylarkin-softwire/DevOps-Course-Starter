@@ -1,0 +1,24 @@
+- name: Test
+  hosts: managed_nodes
+  remote_user: ec2-user
+
+  tasks:
+  - name: Install required packages
+    ansible.builtin.yum:
+      name:
+      - git
+      - python3
+      state: present
+    become: yes
+
+  - name: Install poetry
+    ansible.builtin.shell: curl -sSL https://install.python-poetry.org | python3 -
+    args:
+      creates: $HOME/.local/bin/poetry
+
+  - name: Create ToDoApp directory
+    ansible.builtin.file:
+      path: /opt/todoapp
+      state: directory
+      owner: ec2-user
+    become: yes
