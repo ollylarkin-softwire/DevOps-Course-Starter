@@ -47,7 +47,7 @@
     ansible.builtin.file:
       path: /opt/todoapp
       state: directory
-      owner: ec2-user
+      owner: '{{ ansible_ssh_user }}'
     become: yes
 
   - name: Clone ToDo App
@@ -59,19 +59,19 @@
   - name: Install dependancies
     ansible.builtin.shell: |
       cd /opt/todoapp
-      /home/ec2-user/.local/bin/poetry install
+      ~/.local/bin/poetry install
 
   - name: Create .env file
     ansible.builtin.template:
       src: .env.j2
       dest: /opt/todoapp/.env
-      owner: ec2-user
+      owner: '{{ ansible_ssh_user }}'
 
   - name: Copy todoapp service
     ansible.builtin.copy:
       src: todoapp.service
       dest: /etc/systemd/system/todoapp.service
-      owner: ec2-user
+      owner: '{{ ansible_ssh_user }}'
     become: yes
 
   - name: Start app
