@@ -65,3 +65,18 @@ You should see output similar to the following:
  * Debugger PIN: 226-556-590
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+## Using Ansible to Privision a VM from a Control Node
+
+These instuctions assume that all target VMs used have the control node's public key listed in `~/.ssh/authorized_keys`, meaning no password is required for an ssh connection between the control node and managed VMs.  
+
+It is also assumed that all VMs can be logged into with the same username. In this case, it is set to 'ec2-user', but can be consigured by editing the `remote_user` option at the top of file `ansible/ansible_playbook.yml`.  
+
+The list of managed VMs can be configured from the `[managed_nodes]` section of `ansible/ansible_inventory`.  
+
+To provision the VMs, run the following command from the route directory of this repo:
+```bash
+ansible-playbook ansible/ansible-playbook.yml -i ansible/ansible-inventory
+```
+
+The ToDo app should then be availble on each of the VMs at `http://host.ip.address:5000`.
