@@ -80,3 +80,39 @@ ansible-playbook ansible/ansible-playbook.yml -i ansible/ansible-inventory
 ```
 
 The ToDo app should then be availble on each of the VMs at `http://host.ip.address:5000`.
+
+## Using Docker  
+
+This project includes a dockerfile allowing it to be run in a docker container for development or production purposes.
+
+### Development
+
+Build the docker container for development by running the folling command from the root of the project directory:
+```bash
+docker build --target development --tag todo-app:dev .
+```
+
+And run the container by running the following command from the root of the project directory, replacing `<port>` with the port that you want the site to be available on:
+```bash
+docker run --env-file .env -p <port>:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo-app:dev
+```
+
+The site can then be accessed by navigating to `http://localhost:<port>` in a browser, replacing `<port>` with the value specified in the previous command.
+
+In development mode, hot reloading is enabled and changes in the local file system should reflect in the site.
+
+### Production
+
+Build the docker container for development by running the folling command from the root of the project directory:
+```bash
+docker build --target production --tag todo-app:prod .
+```
+
+And run the container by running the following command from the root of the project directory, replacing `<port>` with the port that you want the site to be available on:
+```bash
+docker run --env-file .env -p <port>:8000 todo-app:prod
+```
+
+The site can then be accessed by navigating to `http://localhost:<port>` in a browser, replacing `<port>` with the value specified in the previous command.
+
+Hot reloading is not enabled in production mode and to see any changes, the container will have to be rebuild and then rerun.

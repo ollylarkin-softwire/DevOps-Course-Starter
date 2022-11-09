@@ -1,0 +1,13 @@
+.github/
+.git/
+.pytest_cache/
+.venv/
+.vscode/
+ansible/
+todo_app/__pycache__/
+
+.env
+.env.template
+.gitignore
+.gitpod.yml
+poetry.lock
