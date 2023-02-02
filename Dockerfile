@@ -13,3 +13,9 @@ ENTRYPOINT poetry run gunicorn --bind 0.0.0.0 "todo_app.app:create_app()"
 FROM base as development
 EXPOSE 5000
 ENTRYPOINT poetry run flask run --host 0.0.0.0
+
+FROM base as test
+COPY todo_app /app/todo_app
+COPY tests /app/tests
+COPY .env.test /app/.env.test
+ENTRYPOINT ["poetry", "run", "pytest"]

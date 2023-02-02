@@ -103,7 +103,7 @@ In development mode, hot reloading is enabled and changes in the local file syst
 
 ### Production
 
-Build the docker container for development by running the folling command from the root of the project directory:
+Build the docker container for development by running the following command from the root of the project directory:
 ```bash
 docker build --target production --tag todo-app:prod .
 ```
@@ -116,3 +116,15 @@ docker run --env-file .env -p <port>:8000 todo-app:prod
 The site can then be accessed by navigating to `http://localhost:<port>` in a browser, replacing `<port>` with the value specified in the previous command.
 
 Hot reloading is not enabled in production mode and to see any changes, the container will have to be rebuild and then rerun.
+
+### Testing
+
+Build the docker container for testing by running the following command from the root of the project directory:
+```bash
+docker build --target test --tag todo-app:test .
+```
+
+The tests can then be run by running the following command from the root directory:
+```bash
+docker run todo-app:test
+```
